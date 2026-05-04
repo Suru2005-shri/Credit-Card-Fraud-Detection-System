@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Credit Card Fraud Detection – Dashboard</title>
+<meta name="description" content="ML-powered credit card fraud detection dashboard with live simulation, EDA visualizations, and model evaluation."/>
+<link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<!-- ═══════════════════ SIDEBAR ═══════════════════ -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-icon">💳</div>
+    <div>
+      <div class="logo-text">FraudGuard ML</div>
+      <div class="logo-sub">Detection System v1.0</div>
+    </div>
+  </div>
+  <nav class="nav">
+    <a class="nav-item active" data-section="page-overview" href="#">
+      <span class="nav-icon">📊</span><span class="nav-label">Overview</span>
+    </a>
+    <a class="nav-item" data-section="page-eda" href="#">
+      <span class="nav-icon">🔍</span><span class="nav-label">EDA Charts</span>
+    </a>
+    <a class="nav-item" data-section="page-model" href="#">
+      <span class="nav-icon">🤖</span><span class="nav-label">Model Results</span>
+    </a>
+    <a class="nav-item" data-section="page-sim" href="#">
+      <span class="nav-icon">⚡</span><span class="nav-label">Live Simulation</span>
+    </a>
+    <a class="nav-item" data-section="page-predict" href="#">
+      <span class="nav-icon">🎯</span><span class="nav-label">Predict</span>
+    </a>
+  </nav>
+  <div class="sidebar-badge">
+    <div class="badge-label">System Status</div>
+    <div class="badge-status"><span class="pulse"></span> Model Active</div>
+  </div>
+</aside>
+
+<!-- ═══════════════════ MAIN ═══════════════════ -->
+<main class="main">
+  <header class="topbar">
+    <div>
+      <div class="topbar-title">Overview</div>
+      <div class="topbar-sub">Credit Card Fraud Detection System — Python 3.11 · XGBoost · SMOTE</div>
+    </div>
+    <div class="topbar-right">
+      <span class="topbar-tag">✓ Model Loaded</span>
+      <button class="btn-refresh">↻ Refresh</button>
+    </div>
+  </header>
+
+  <div class="content">
+
+    <!-- ════ PAGE: OVERVIEW ════ -->
+    <div id="page-overview" class="section-page active">
+
+      <!-- KPI Row -->
+      <div class="kpi-grid">
+        <div class="kpi-card fraud">
+          <div class="kpi-icon">🚨</div>
+          <div class="kpi-value" data-target="491" data-decimals="0">0</div>
+          <div class="kpi-label">Fraud Transactions</div>
+          <div class="kpi-delta up">▲ 0.172% of total</div>
+        </div>
+        <div class="kpi-card legit">
+          <div class="kpi-icon">✅</div>
+          <div class="kpi-value" data-target="284316" data-decimals="0">0</div>
+          <div class="kpi-label">Legitimate Transactions</div>
+          <div class="kpi-delta down">▼ 99.83% of total</div>
+        </div>
+        <div class="kpi-card gold">
+          <div class="kpi-icon">📈</div>
+          <div class="kpi-value" data-target="1.0" data-decimals="4" data-suffix="">1.0000</div>
+          <div class="kpi-label">ROC-AUC Score</div>
+          <div class="kpi-delta down">Best: LogisticRegression</div>
+        </div>
+        <div class="kpi-card purple">
+          <div class="kpi-icon">🧮</div>
+          <div class="kpi-value" data-target="284807" data-decimals="0">0</div>
+          <div class="kpi-label">Total Transactions</div>
+          <div class="kpi-delta down">▼ 48-hour window</div>
+        </div>
+      </div>
+
+      <!-- Donut + Model Bar + Summary chart -->
+      <div class="chart-grid-2">
+        <div class="chart-panel">
+          <div class="chart-header">
+            <h3>Class Distribution</h3>
+            <span class="chart-tag red">Imbalanced</span>
+          </div>
+          <div class="donut-wrap">
+            <canvas id="donutChart" width="180" height="180"></canvas>
+            <div class="donut-legend">
+              <div class="legend-item"><span class="legend-dot" style="background:#00c9a7"></span>Legitimate &nbsp;<strong style="color:#f0f2ff">284,316</strong></div>
+              <div class="legend-item"><span class="legend-dot" style="background:#ff4d6d"></span>Fraud &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong style="color:#f0f2ff">491</strong></div>
+              <div style="margin-top:10px;font-size:11px;color:var(--text-muted)">SMOTE applied in training<br>to balance minority class</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="chart-panel">
+          <div class="chart-header">
+            <h3>Model ROC-AUC Scores</h3>
+            <span class="chart-tag blue">Validation Set</span>
+          </div>
+          <div style="padding:16px 20px 8px;">
+            <canvas id="barChart" width="420" height="160"></canvas>
+            <div style="display:flex;gap:16px;margin-top:10px;font-size:11px;">
+              <span style="color:#7b61ff">■ LogReg</span>
+              <span style="color:#00c9a7">■ RandomForest</span>
+              <span style="color:#ff4d6d">■ XGBoost</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Summary dashboard image -->
+      <div class="chart-full">
+        <div class="chart-panel">
+          <div class="chart-header">
+            <h3>Summary Dashboard</h3>
+            <span class="chart-tag green">Auto-generated</span>
+          </div>
+          <div class="chart-body">
+            <img src="assets/05_summary_dashboard.png" alt="Summary Dashboard" loading="lazy"/>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════ PAGE: EDA ════ -->
+    <div id="page-eda" class="section-page" style="display:none">
+      <div class="tabs">
+        <button class="tab-btn active" data-group="eda" data-tab="dist">Class Distribution</button>
+        <button class="tab-btn" data-group="eda" data-tab="amount">Amount Distribution</button>
+        <button class="tab-btn" data-group="eda" data-tab="hour">Hour Heatmap</button>
+        <button class="tab-btn" data-group="eda" data-tab="corr">Correlation</button>
+      </div>
+
+      <div class="tab-content active" data-group="eda" data-tab="dist">
+        <div class="chart-panel"><div class="chart-header"><h3>Class Distribution</h3><span class="chart-tag red">Imbalanced Dataset</span></div>
+          <div class="chart-body"><img src="assets/01_class_distribution.png" alt="Class Distribution"/></div></div>
+      </div>
+      <div class="tab-content" data-group="eda" data-tab="amount">
+        <div class="chart-panel"><div class="chart-header"><h3>Transaction Amount Distribution</h3><span class="chart-tag blue">Log Scale</span></div>
+          <div class="chart-body"><img src="assets/02_amount_distribution.png" alt="Amount Distribution"/></div></div>
+      </div>
+      <div class="tab-content" data-group="eda" data-tab="hour">
+        <div class="chart-panel"><div class="chart-header"><h3>Fraud Rate by Hour of Day</h3><span class="chart-tag red">Night Spike</span></div>
+          <div class="chart-body"><img src="assets/03_hour_fraud_heatmap.png" alt="Hour Heatmap"/></div></div>
+      </div>
+      <div class="tab-content" data-group="eda" data-tab="corr">
+        <div class="chart-panel"><div class="chart-header"><h3>Feature Correlation Heatmap</h3><span class="chart-tag gold">Top 12 Features</span></div>
+          <div class="chart-body"><img src="assets/04_correlation_heatmap.png" alt="Correlation Heatmap"/></div></div>
+      </div>
+    </div>
+
+    <!-- ════ PAGE: MODEL RESULTS ════ -->
+    <div id="page-model" class="section-page" style="display:none">
+      <div class="section-title">Model Evaluation Metrics</div>
+
+      <div class="metrics-panel">
+        <table class="metrics-table">
+          <thead>
+            <tr><th>Model</th><th>ROC-AUC</th><th>Avg Precision</th><th>Precision</th><th>Recall</th><th>F1 Score</th><th>Status</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Logistic Regression</td>
+              <td><span class="score perfect">1.0000</span></td>
+              <td><span class="score perfect">1.0000</span></td>
+              <td><span class="score perfect">1.0000</span></td>
+              <td><span class="score perfect">1.0000</span></td>
+              <td><span class="score perfect">1.0000</span></td>
+              <td><span class="best-badge">★ Best</span></td>
+            </tr>
+            <tr>
+              <td>Random Forest</td>
+              <td><span class="score perfect">1.0000</span></td>
+              <td><span class="score perfect">1.0000</span></td>
+              <td><span class="score perfect">1.0000</span></td>
+              <td><span class="score perfect">1.0000</span></td>
+              <td><span class="score perfect">1.0000</span></td>
+              <td><span style="color:var(--text-muted);font-size:12px">Runner-up</span></td>
+            </tr>
+            <tr>
+              <td>XGBoost</td>
+              <td><span class="score perfect">1.0000</span></td>
+              <td><span class="score perfect">1.0000</span></td>
+              <td><span class="score perfect">1.0000</span></td>
+              <td><span class="score perfect">1.0000</span></td>
+              <td><span class="score perfect">1.0000</span></td>
+              <td><span style="color:var(--text-muted);font-size:12px">Runner-up</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="chart-grid-2">
+        <div class="chart-panel"><div class="chart-header"><h3>Confusion Matrix</h3><span class="chart-tag green">Test Set</span></div>
+          <div class="chart-body"><img src="assets/confusion_matrix.png" alt="Confusion Matrix"/></div></div>
+        <div class="chart-panel"><div class="chart-header"><h3>ROC Curve</h3><span class="chart-tag blue">AUC = 1.000</span></div>
+          <div class="chart-body"><img src="assets/roc_curve.png" alt="ROC Curve"/></div></div>
+      </div>
+      <div class="chart-grid-2">
+        <div class="chart-panel"><div class="chart-header"><h3>Precision-Recall Curve</h3><span class="chart-tag gold">AP = 1.000</span></div>
+          <div class="chart-body"><img src="assets/pr_curve.png" alt="PR Curve"/></div></div>
+        <div class="chart-panel"><div class="chart-header"><h3>Feature Importance</h3><span class="chart-tag blue">Top 20</span></div>
+          <div class="chart-body"><img src="assets/feature_importance.png" alt="Feature Importance"/></div></div>
+      </div>
+    </div>
+
+    <!-- ════ PAGE: SIMULATION ════ -->
+    <div id="page-sim" class="section-page" style="display:none">
+      <div class="sim-panel">
+        <div class="sim-header">
+          <h3>⚡ Live Transaction Stream <span id="simPulse" class="pulse" style="display:none"></span></h3>
+          <div class="sim-controls">
+            <button id="btnStart" class="btn-sim start">▶ Start</button>
+            <button id="btnStop"  class="btn-sim stop" disabled>⏹ Stop</button>
+            <button id="btnClear" class="btn-sim start" style="background:var(--accent-dim);color:var(--accent);border-color:var(--border-hi)">✕ Clear</button>
+          </div>
+        </div>
+        <div id="simLog" class="sim-log">
+          <div style="color:var(--text-muted);font-size:12px;text-align:center;margin-top:120px">
+            Click ▶ Start to begin live fraud simulation
+          </div>
+        </div>
+        <div class="sim-footer">
+          <div class="sim-stat"><span class="sim-stat-label">Transactions:</span><span class="sim-stat-value" id="simTotal">0</span></div>
+          <div class="sim-stat"><span class="sim-stat-label">Flagged:</span><span class="sim-stat-value" id="simFraud" style="color:var(--fraud)">0</span></div>
+          <div class="sim-stat"><span class="sim-stat-label">Fraud Rate:</span><span class="sim-stat-value" id="simRate">0%</span></div>
+          <div class="sim-stat"><span class="sim-stat-label">Avg Risk:</span><span class="sim-stat-value" id="simAvgRisk">0%</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════ PAGE: PREDICT ════ -->
+    <div id="page-predict" class="section-page" style="display:none">
+      <div class="predict-panel">
+        <div class="predict-header">
+          <h3>🎯 Single Transaction Predictor</h3>
+          <p>Enter transaction details to get an instant fraud risk score</p>
+        </div>
+        <div class="predict-body">
+          <form id="predictForm">
+            <div class="form-row" style="margin-bottom:14px">
+              <div class="form-group">
+                <label>Amount ($)</label>
+                <input type="number" id="pAmount" placeholder="e.g. 250.00" step="0.01" min="0" required/>
+              </div>
+              <div class="form-group">
+                <label>Hour of Day (0–23)</label>
+                <input type="number" id="pHour" placeholder="e.g. 2" min="0" max="23" required/>
+              </div>
+            </div>
+            <div class="form-row" style="margin-bottom:14px">
+              <div class="form-group">
+                <label>Merchant Category</label>
+                <select id="pCat">
+                  <option value="grocery">Grocery</option>
+                  <option value="restaurant">Restaurant</option>
+                  <option value="gas">Gas Station</option>
+                  <option value="online">Online Retail</option>
+                  <option value="travel">Travel</option>
+                  <option value="atm">ATM Withdrawal</option>
+                  <option value="electronics">Electronics</option>
+                  <option value="luxury">Luxury Goods</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Transaction Type</label>
+                <select id="pType">
+                  <option value="card">Card Present</option>
+                  <option value="online">Card Not Present</option>
+                  <option value="contactless">Contactless</option>
+                </select>
+              </div>
+            </div>
+            <button type="submit" class="btn-predict">🔍 Analyze Transaction</button>
+          </form>
+
+          <div id="predictResult" class="predict-result">
+            <div class="result-empty">Submit a transaction to see the fraud risk analysis</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick test scenarios -->
+      <div class="chart-panel">
+        <div class="chart-header"><h3>Quick Test Scenarios</h3><span class="chart-tag blue">Click to load</span></div>
+        <div style="padding:16px 20px;display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
+          <button onclick="loadScenario(45.50,10,'grocery')" style="padding:12px;border-radius:10px;border:1px solid var(--legit-dim);background:var(--legit-dim);color:var(--legit);font-size:12px;cursor:pointer;font-family:Inter,sans-serif">
+            ✅ Normal Grocery<br><small style="color:var(--text-muted)">$45.50 · 10 AM</small>
+          </button>
+          <button onclick="loadScenario(3200,2,'luxury')" style="padding:12px;border-radius:10px;border:1px solid var(--fraud-dim);background:var(--fraud-dim);color:var(--fraud);font-size:12px;cursor:pointer;font-family:Inter,sans-serif">
+            🚨 Night Luxury Buy<br><small style="color:var(--text-muted)">$3200 · 2 AM</small>
+          </button>
+          <button onclick="loadScenario(0.99,1,'online')" style="padding:12px;border-radius:10px;border:1px solid var(--gold-dim);background:var(--gold-dim);color:var(--gold);font-size:12px;cursor:pointer;font-family:Inter,sans-serif">
+            ⚠ Card Test Probe<br><small style="color:var(--text-muted)">$0.99 · 1 AM</small>
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+
+  <footer class="footer">
+    Built with <span>Python · Scikit-learn · XGBoost · SMOTE</span> &nbsp;|&nbsp; Data Science Portfolio Project &nbsp;|&nbsp; 2026
+  </footer>
+</main>
+
+<script src="app.js"></script>
+<script>
+  // Section switching (override anchor default)
+  document.querySelectorAll('.nav-item[data-section]').forEach(item => {
+    item.addEventListener('click', e => {
+      e.preventDefault();
+      const sec = item.dataset.section;
+      document.querySelectorAll('.section-page').forEach(p => { p.style.display = 'none'; p.classList.remove('active'); });
+      const target = document.getElementById(sec);
+      if (target) { target.style.display = 'block'; target.classList.add('active'); }
+    });
+  });
+
+  function loadScenario(amt, hour, cat) {
+    document.getElementById('pAmount').value = amt;
+    document.getElementById('pHour').value   = hour;
+    document.getElementById('pCat').value    = cat;
+    // Switch to predict page
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    document.querySelectorAll('.section-page').forEach(p => { p.style.display='none'; p.classList.remove('active'); });
+    const pg = document.getElementById('page-predict');
+    if (pg) { pg.style.display='block'; pg.classList.add('active'); }
+    document.querySelector('[data-section="page-predict"]')?.classList.add('active');
+    document.getElementById('predictForm').dispatchEvent(new Event('submit'));
+  }
+</script>
+</body>
+</html>
