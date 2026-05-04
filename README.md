@@ -1,10 +1,10 @@
-# 💳 Credit Card Fraud Detection System
+# Credit Card Fraud Detection System
 
 A Machine Learning project designed to detect fraudulent credit card transactions using imbalanced data handling techniques and classification models. This project simulates a real-world fraud detection pipeline used in banking and fintech systems.
 
 ---
 
-## 📌 Overview
+##  Overview
 
 Credit card fraud detection is a critical problem in the financial industry due to the massive volume of transactions and the rarity of fraudulent cases.
 
@@ -18,7 +18,7 @@ This project builds a complete pipeline to:
 
 ---
 
-## 🎯 Problem Statement
+##  Problem Statement
 
 Fraudulent transactions represent a very small fraction of total transactions, making detection difficult.
 
@@ -30,7 +30,7 @@ Challenges:
 
 ---
 
-## 💡 Solution Approach
+##  Solution Approach
 
 The project follows a structured Machine Learning pipeline:
 
@@ -43,7 +43,7 @@ The project follows a structured Machine Learning pipeline:
 
 ---
 
-## 🛠 Tech Stack
+##  Tech Stack
 
 * **Language:** Python
 * **Libraries:** Pandas, NumPy, Scikit-learn
@@ -53,7 +53,7 @@ The project follows a structured Machine Learning pipeline:
 
 ---
 
-## 🏗 Project Architecture
+##  Project Architecture
 
 ```
 Transaction Data
@@ -75,7 +75,7 @@ Alert System
 
 ---
 
-## 📂 Folder Structure
+##  Folder Structure
 
 ```
 Credit-Card-Fraud-Detection/
@@ -93,7 +93,7 @@ Credit-Card-Fraud-Detection/
 
 ---
 
-## ⚙️ Installation
+##  Installation
 
 ```bash
 # Clone repository
@@ -115,7 +115,7 @@ pip install -r requirements.txt
 
 ---
 
-## ▶️ How to Run
+##  How to Run
 
 ```bash
 python main.py
@@ -123,7 +123,7 @@ python main.py
 
 ---
 
-## 📊 Model Evaluation
+##  Model Evaluation
 
 Evaluation metrics used:
 
@@ -137,7 +137,7 @@ Because fraud detection datasets are highly imbalanced, accuracy alone is mislea
 
 ---
 
-## 📈 Results
+##  Results
 
 * Successfully detected fraudulent transactions
 * Improved recall using SMOTE
@@ -145,12 +145,12 @@ Because fraud detection datasets are highly imbalanced, accuracy alone is mislea
 
 ---
 
-## 🎭 Fraud Detection Simulation
+##  Fraud Detection Simulation
 
 The system simulates transaction behavior and predicts:
 
-* ✅ Normal Transaction
-* 🚨 Fraudulent Transaction
+*  Normal Transaction
+*  Fraudulent Transaction
 
 Example:
 
@@ -161,7 +161,7 @@ Prediction: FRAUD
 
 ---
 
-## 📸 Outputs
+##  Outputs
 
 The project generates:
 
@@ -171,7 +171,7 @@ The project generates:
 
 ---
 
-## 🚀 Future Improvements
+##  Future Improvements
 
 * Real-time API integration (Flask/FastAPI)
 * Deployment using Streamlit dashboard
@@ -180,7 +180,7 @@ The project generates:
 
 ---
 
-## 💼 Use Case
+##  Use Case
 
 This project demonstrates:
 
@@ -190,11 +190,11 @@ This project demonstrates:
 
 ---
 
-## 👨‍💻 Author
-Sarthak Dhumal
+##  Author
+Shruti Srivasatava
 
 Developed as part of a Data Science and Machine Learning portfolio project for internships and placements.
 
 ---
 
-## ⭐ If you found this useful, consider giving it a star!
+##  If you found this useful, consider giving it a star!
